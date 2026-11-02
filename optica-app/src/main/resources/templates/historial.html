@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Historial - Óptica</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #eef2f5; padding: 0; margin: 0; }
+        .header { background-color: #333; color: white; padding: 15px; text-align: center; margin-bottom: 20px; }
+        .header a { color: white; text-decoration: underline; margin-top: 10px; display: inline-block; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: #333; margin-top: 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background-color: #007bff; color: white; }
+        tr:hover { background-color: #f5f5f5; }
+        .vacio { text-align: center; color: #777; padding: 20px; }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Mis Mediciones Oftalmológicas</h1>
+    <a href="/cliente/catalogo">← Volver al Catálogo</a>
+</div>
+
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Esfera</th>
+            <th>Cilindro</th>
+            <th>Eje</th>
+            <th>Adición</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Aquí se muestran las mediciones de la base de datos -->
+        <tr th:each="m : ${mediciones}">
+            <td th:text="${m.fecha}"></td>
+            <td th:text="${m.esfera}"></td>
+            <td th:text="${m.cilindro}"></td>
+            <td th:text="${m.eje}"></td>
+            <td th:text="${m.adicion}"></td>
+        </tr>
+        <!-- Si no hay mediciones, mostramos un mensaje -->
+        <tr th:if="${#lists.isEmpty(mediciones)}">
+            <td colspan="5" class="vacio">No tienes mediciones registradas aún.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo - Óptica Visión</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #eef2f5; padding: 0; margin: 0; }
+        .header { background-color: #333; color: white; padding: 15px; text-align: center; margin-bottom: 20px; position: relative; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .header-links { margin-top: 10px; }
+        .header-links a { color: white; text-decoration: underline; margin: 0 10px; font-size: 14px;}
+        .container { max-width: 1000px; margin: auto; padding: 0 20px 20px 20px; }
+        .grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+        .card { background: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 250px; padding: 20px; text-align: center; }
+        .card h3 { color: #007bff; margin-top: 0; font-size: 22px; }
+        .card p { color: #555; margin: 5px 0; font-size: 14px; }
+        .precio { font-size: 20px; font-weight: bold; color: #28a745; margin: 15px 0; }
+        .btn-apartar { background-color: #ffc107; color: #333; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; width: 100%; box-sizing: border-box;}
+        .btn-apartar:hover { background-color: #e0a800; }
+        .alerta-exito { background-color: #d4edda; color: #155724; padding: 15px; text-align: center; font-weight: bold; border-bottom: 1px solid #c3e6cb; }
+    </style>
+</head>
+<body>
+
+<!-- Alerta de aro apartado con éxito -->
+<div th:if="${param.exito}" class="alerta-exito">
+    ✅ ¡Aro apartado con éxito! Puedes ir a la caja para cotizarlo.
+</div>
+
+<!-- Cabecera -->
+<div class="header">
+    <h1>Óptica Visión - Catálogo de Aros</h1>
+    <div class="header-links">
+        <a href="/cliente/historial">Ver mi Historial de Medición</a>
+        <a href="/">Cerrar Sesión</a>
+    </div>
+</div>
+
+<!-- Contenedor de las tarjetas -->
+<div class="container">
+    <div class="grid">
+        <!-- Iteramos sobre los aros del catálogo -->
+        <div class="card" th:each="aro : ${catalogoAros}">
+            <h3 th:text="${aro.marca}">Marca</h3>
+            <p><strong>Material:</strong> <span th:text="${aro.material}"></span></p>
+            <p><strong>Forma:</strong> <span th:text="${aro.forma}"></span></p>
+            <div class="precio" th:text="'$' + ${aro.precio}">$0.00</div>
+
+            <!-- Botón de apartar -->
+            <a th:href="@{/cliente/apartar/{id}(id=${aro.id})}" class="btn-apartar">Apartar Aro</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

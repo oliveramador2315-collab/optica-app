@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventario - Óptica</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #007bff; color: white; }
+        .alerta { background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #f5c6cb; }
+        .btn { padding: 8px 12px; background-color: #28a745; color: white; text-decoration: none; border-radius: 4px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Panel de Vendedor - Inventario de Aros</h1>
+    <p>Bienvenido al sistema de gestión de la óptica.</p>
+
+    <!-- Alerta de Stock Bajo -->
+    <div class="alerta" th:if="${!arosBajos.isEmpty()}">
+        <strong>⚠️ ¡Atención!</strong> Hay aros con stock bajo (menos de 5 unidades). Revisa la tabla.
+    </div>
+
+    <a href="/vendedor/aros/nuevo" class="btn" style="margin-bottom: 10px; display: inline-block;">+ Agregar Nuevo Aro</a>
+
+    <!-- Tabla de Inventario -->
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Marca</th>
+            <th>Material</th>
+            <th>Forma</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iteramos sobre la lista de aros que nos enviará el controlador -->
+        <tr th:each="aro : ${listaAros}">
+            <td th:text="${aro.id}"></td>
+            <td th:text="${aro.marca}"></td>
+            <td th:text="${aro.material}"></td>
+            <td th:text="${aro.forma}"></td>
+            <td th:text="'$' + ${aro.precio}"></td>
+            <td th:text="${aro.stock}"></td>
+
+            <!-- Columna de Estado -->
+            <td>
+                <span th:if="${aro.stock < 5}" style="color: red; font-weight: bold;">¡Stock Bajo!</span>
+                <span th:if="${aro.stock >= 5}" style="color: green;">Disponible</span>
+            </td>
+
+            <!-- Columna de Acciones -->
+            <td>
+                <a th:href="@{/vendedor/aros/editar/{id}(id=${aro.id})}" style="color: blue; text-decoration: none; margin-right: 10px;">Editar</a>
+                <a th:href="@{/vendedor/aros/eliminar/{id}(id=${aro.id})}" style="color: red; text-decoration: none;" onclick="return confirm('¿Seguro que deseas eliminar este aro?');">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
